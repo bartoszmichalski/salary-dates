@@ -8,40 +8,42 @@ use AppBundle\Entity\SalaryDate;
  *
  * @author bartosz
  */
-class SalaryDateCalculations
+class SalaryDateCalculations extends SalaryDate
 {
-    public function setSalaryMonth(SalaryDate $salaryDate, $date)
+    public function setSalaryMonth($date)
     {
-        $monthName = date('F', $date);
-        $salaryDate->setMonth($monthName);
+        $this->setMonth(date('F', $date));
+        
+        return $this;
     }
     
-    public function setSalaryBase(SalaryDate $salaryDate, $date)
+    public function setSalaryBase($date)
     {
-        $basePaymentDate = date('t', $date);
-        
-        $numberDayInWeek = date('N', $this->getLastDayOfMonthTimestamp($date));
-        
+        $basePaymentDay = date('t', $date);       
+        $numberDayInWeek = date('N', $this->getLastDayOfMonthTimestamp($date));        
         if ($numberDayInWeek == 6) {
-            $basePaymentDate -= 1;
+            $basePaymentDay -= 1;
         }
         if ($numberDayInWeek == 7) {
-            $basePaymentDate -= 2;
-        }
-        $salaryDate->setBase(date('Y m '.$basePaymentDate, $date));       
+            $basePaymentDay -= 2;
+        }        
+        $basePaymentTimestamp = mktime(0, 0, 0, date('m', $date), $basePaymentDay, date('Y',$date));
+        $this->setBase(date('Y m d', $basePaymentTimestamp)); 
+                
+        return $this;
     }
     
-    public function setSalaryBonus(SalaryDate $salaryDate, $date)
+    public function setSalaryBonus($date)
     {
-        $lastDayTimestamp = $this->getLastDayOfMonthTimestamp($date);
-        $bonusPaymentDate = strtotime('+15days', $lastDayTimestamp);
-        $numberDayInWeek = date('N', $bonusPaymentDate);
-        if ($numberDayInWeek > 5) {
+        $bonusPaymentDate = strtotime('+15days', $this->getLastDayOfMonthTimestamp($date));
+        if (date('N', $bonusPaymentDate) > 5) {
             $bonusPaymentDate = strtotime('next Wednesday', $bonusPaymentDate);
         }
-        var_dump($bonusPaymentDate);
-        $salaryDate->setBonus(date('Y m d',$bonusPaymentDate));
+        $this->setBonus(date('Y m d',$bonusPaymentDate));
+                
+        return $this;
     }
+    
     private function getLastDayOfMonthTimestamp($date)
     {
         return mktime(0, 0, 0, date('m', $date), date('t', $date), date('Y',$date));      

@@ -35,18 +35,23 @@ class SalaryDatesCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         // outputs multiple lines to the console (adding "\n" at the end of each line)
-        $salary = new SalaryDate;
-        $salaryDate = new SalaryDateCalculations;
-        $currentTimestamp = time()+(60*60*24*30*4);
-        $salaryDate->setSalaryMonth($salary, $currentTimestamp);
-        $salaryDate->setSalaryBase($salary, $currentTimestamp);
-        $salaryDate->setSalaryBonus($salary, $currentTimestamp);
         $output->writeln([
-            'Your filename: '.$input->getArgument('filename')
-          ]);
+                'Your filename: '.$input->getArgument('filename')
+              ]);
+        
+        $currentTimestamp = time();
+        $currentMonth = (date('n', $currentTimestamp));
+        for ($i = $currentMonth; $i <= 12; $i++) {
+            $iteratorTimestamp = strtotime('+'.$i - $currentMonth.'months',$currentTimestamp);
+            $salaryDateCalc = new SalaryDateCalculations;
 
-        // outputs a message followed by a "\n"
-        $output->writeln('month: '.$salary->getMonth().' salary base: '.$salary->getBase().' bonus:'.$salary->getBonus());
+            $salaryDateCalc->setSalaryMonth( $iteratorTimestamp);
+            $salaryDateCalc->setSalaryBase( $iteratorTimestamp);
+            $salaryDateCalc->setSalaryBonus( $iteratorTimestamp);
+            
 
+            // outputs a message followed by a "\n"
+            $output->writeln('month: '.$salaryDateCalc->getMonth().' salary base: '.$salaryDateCalc->getBase().' bonus:'.$salaryDateCalc->getBonus());
+        }
     }
 }
