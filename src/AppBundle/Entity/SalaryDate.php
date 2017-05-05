@@ -1,10 +1,5 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 namespace AppBundle\Entity;
 
 /**
@@ -14,8 +9,21 @@ namespace AppBundle\Entity;
  */
 class SalaryDate
 {
+    private $month;
     private $base;
     private $bonus;
+    
+    public function setMonth($month)
+    {
+        $this->month = $month;
+        
+        return $this;
+    }
+    
+    public function getMonth()
+    {
+        return $this->month;
+    }
     
     public function setBase($base)
     {

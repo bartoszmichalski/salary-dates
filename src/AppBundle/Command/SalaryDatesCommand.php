@@ -13,6 +13,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use AppBundle\Entity\SalaryDate;
+use AppBundle\Entity\SalaryDateCalculations;
 
 class SalaryDatesCommand extends Command
 {
@@ -35,15 +36,17 @@ class SalaryDatesCommand extends Command
     {
         // outputs multiple lines to the console (adding "\n" at the end of each line)
         $salary = new SalaryDate;
-        $salary->setBase('2017-01-01');
+        $salaryDate = new SalaryDateCalculations;
+        $currentTimestamp = time()+(60*60*24*30*4);
+        $salaryDate->setSalaryMonth($salary, $currentTimestamp);
+        $salaryDate->setSalaryBase($salary, $currentTimestamp);
+        $salaryDate->setSalaryBonus($salary, $currentTimestamp);
         $output->writeln([
-            'Your filename:',
-            '============',
-            '',
+            'Your filename: '.$input->getArgument('filename')
           ]);
 
         // outputs a message followed by a "\n"
-        $output->writeln($input->getArgument('filename').' '.$salary->getBase());
+        $output->writeln('month: '.$salary->getMonth().' salary base: '.$salary->getBase().' bonus:'.$salary->getBonus());
 
     }
 }
