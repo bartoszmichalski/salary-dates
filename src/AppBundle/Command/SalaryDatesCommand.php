@@ -12,7 +12,6 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
-use AppBundle\Entity\SalaryDate;
 use AppBundle\Entity\SalaryDateCalculations;
 
 class SalaryDatesCommand extends Command
@@ -44,12 +43,7 @@ class SalaryDatesCommand extends Command
         for ($i = $currentMonth; $i <= 12; $i++) {
             $iteratorTimestamp = strtotime('+'.$i - $currentMonth.'months',$currentTimestamp);
             $salaryDateCalc = new SalaryDateCalculations;
-
-            $salaryDateCalc->setSalaryMonth( $iteratorTimestamp);
-            $salaryDateCalc->setSalaryBase( $iteratorTimestamp);
-            $salaryDateCalc->setSalaryBonus( $iteratorTimestamp);
-            
-
+            $salaryDateCalc->setSalaryMonth( $iteratorTimestamp)->setSalaryBase( $iteratorTimestamp)->setSalaryBonus( $iteratorTimestamp);          
             // outputs a message followed by a "\n"
             $output->writeln('month: '.$salaryDateCalc->getMonth().' salary base: '.$salaryDateCalc->getBase().' bonus:'.$salaryDateCalc->getBonus());
         }
