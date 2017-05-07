@@ -37,15 +37,17 @@ class SalaryDatesCommand extends Command
         $output->writeln([
                 'Your filename: '.$input->getArgument('filename')
               ]);
-        
+        $filehandler = fopen('web/output/'.$input->getArgument('filename').'.csv', 'w');         
         $currentTimestamp = time();
-        $currentMonth = (date('n', $currentTimestamp));
+        $currentMonth = (date('n', $currentTimestamp));        
         for ($i = $currentMonth; $i <= 12; $i++) {
             $iteratorTimestamp = strtotime('+'.$i - $currentMonth.'months',$currentTimestamp);
             $salaryDateCalc = new SalaryDateCalculations;
             $salaryDateCalc->setSalaryMonth( $iteratorTimestamp)->setSalaryBase( $iteratorTimestamp)->setSalaryBonus( $iteratorTimestamp);          
             // outputs a message followed by a "\n"
             $output->writeln('month: '.$salaryDateCalc->getMonth().' salary base: '.$salaryDateCalc->getBase().' bonus:'.$salaryDateCalc->getBonus());
+            fputcsv($filehandler, array($salaryDateCalc->getMonth(),$salaryDateCalc->getBase(), $salaryDateCalc->getBonus() ));
         }
+        fclose($filehandler);
     }
 }

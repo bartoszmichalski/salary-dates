@@ -20,7 +20,7 @@ class SalaryDateCalculations extends SalaryDate
     public function setSalaryBase($date)
     {
         $basePaymentDay = date('t', $date);       
-        $numberDayInWeek = date('N', $this->getLastDayOfMonthTimestamp($date));        
+        $numberDayInWeek = date('N', mktime(0, 0, 0, date('m', $date), date('t', $date), date('Y',$date)));        
         if ($numberDayInWeek == 6) {
             $basePaymentDay -= 1;
         }
@@ -35,7 +35,7 @@ class SalaryDateCalculations extends SalaryDate
     
     public function setSalaryBonus($date)
     {
-        $bonusPaymentDate = strtotime('+15days', $this->getLastDayOfMonthTimestamp($date));
+        $bonusPaymentDate = mktime(0, 0, 0, date('m', $date), 15, date('Y',$date));
         if (date('N', $bonusPaymentDate) > 5) {
             $bonusPaymentDate = strtotime('next Wednesday', $bonusPaymentDate);
         }
@@ -44,9 +44,4 @@ class SalaryDateCalculations extends SalaryDate
         return $this;
     }
     
-    private function getLastDayOfMonthTimestamp($date)
-    {
-        return mktime(0, 0, 0, date('m', $date), date('t', $date), date('Y',$date));      
-    }
-
 }
