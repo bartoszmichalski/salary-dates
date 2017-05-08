@@ -12,7 +12,7 @@ Parameter:
 
 Output file is generated to web/output/ directory.
 
-2. Test could be run using following command:
+2. Unit tests can be run using following command:
 
 ./vendor/phpunit/phpunit/phpunit ./src/AppBundle/Tests/Entity/SalaryDateCalculationsTest
 

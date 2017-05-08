@@ -39,4 +39,11 @@ class SalaryDateCalculationsTest extends WebTestCase
         $salaryDateCalulation->setSalaryBonus(1505632697);
         $this->assertSame('2017 09 15', $salaryDateCalulation->getBonus());
     }
+    
+    public function testSetSalaryBonus15thOnWeekend()
+    {
+        $salaryDateCalulation = new SalaryDateCalculations;
+        $salaryDateCalulation->setSalaryBonus(1501485497);
+        $this->assertSame('2017 07 19', $salaryDateCalulation->getBonus());
+    }
 }
