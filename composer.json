@@ -25,7 +25,9 @@
         "symfony/swiftmailer-bundle": "~2.3,>=2.3.10",
         "symfony/symfony": "2.8.*",
         "twig/twig": "^1.0||^2.0",
-        "symfony/console": "^3.2.8"
+        "symfony/console": "^3.2.8",
+        "phpunit/phpunit":"5.5.*",
+        "phpunit/dbunit": "2."
     },
     "require-dev": {
         "sensio/generator-bundle": "~3.0",

@@ -3,10 +3,16 @@ salary-dates
 
 PHP/Symfony2.8 application.
 
-To run application enter this command:
+1. To run application enter this command:
 
 app/console app:salary-dates <filename>
 
-<filename> - output csv file 
+Parameter:
+<filename> - output csv filename 
 
 Output file is generated to web/output/ directory.
+
+2. Test could be run using following command:
+
+./vendor/phpunit/phpunit/phpunit ./src/AppBundle/Tests/Entity/SalaryDateCalculationsTest
+
