@@ -20,26 +20,30 @@ class SalaryDatesCommand extends Command
     {
         $this
         ->setName('app:salary-dates')
-        ->setDescription('Get salary dates.')
+        ->setDescription('Get CSV file with salary dates.')
         ->setHelp('This command allows you to get salary dates till end of current year.')
-        ->addArgument('filename', InputArgument::REQUIRED, 'Output filename.');
+        ->addArgument('filename', InputArgument::REQUIRED, 'Output file name.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $handler = fopen('web/output/'.$input->getArgument('filename').'.csv', 'w');         
+        $directory = 'web/output';
+        $filename = $input->getArgument('filename');
+        $handler = fopen($directory.'/'.$filename.'.csv', 'w');         
         $currentTimestamp = time();
         $currentMonth = (date('n', $currentTimestamp));        
         for ($i = $currentMonth; $i <= 12; $i++) {
-            $iteratorTimestamp = strtotime('+'.$i - $currentMonth.'months',$currentTimestamp);
+            $TimestampForIterator = strtotime('+'.$i - $currentMonth.'months',$currentTimestamp);
             $salaryDateCalc = new SalaryDateCalculations;
-            $salaryDateCalc->setSalaryMonth( $iteratorTimestamp)->setSalaryBase( $iteratorTimestamp)->setSalaryBonus( $iteratorTimestamp);          
-            $output->writeln('month: '.$salaryDateCalc->getMonth().' salary base: '.$salaryDateCalc->getBase().' bonus:'.$salaryDateCalc->getBonus());
+            $salaryDateCalc
+                ->setSalaryMonth( $TimestampForIterator)
+                ->setSalaryBase( $TimestampForIterator)
+                ->setSalaryBonus( $TimestampForIterator);          
             fputcsv($handler, array($salaryDateCalc->getMonth(), $salaryDateCalc->getBase(), $salaryDateCalc->getBonus()));
         }
         fclose($handler);
         $output->writeln([
-                'File ('.$input->getArgument('filename').'.csv) has been saved.'
+                'File ('.$directory.'/'.$filename.'.csv) has been saved.'
               ]);
     }
 }

@@ -11,4 +11,4 @@
 /bin/
 /composer.phar
 /nbproject/private/
-/web/output/
+/web/output/*
