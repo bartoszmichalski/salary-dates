@@ -12,7 +12,7 @@ Parameter:
 
 Sample: app/console app:salary-dates myfile
 
-Output file is generated to web/output/ directory.
+Output file is generated to 'web' directory.
 
 2. Unit tests can be run using following command:
 

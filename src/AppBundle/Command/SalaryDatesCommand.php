@@ -27,7 +27,7 @@ class SalaryDatesCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $directory = 'web/output';
+        $directory = 'web';
         $filename = $input->getArgument('filename');
         $handler = fopen($directory.'/'.$filename.'.csv', 'w');         
         $currentTimestamp = time();
