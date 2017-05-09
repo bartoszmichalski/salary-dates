@@ -5,10 +5,10 @@ PHP/Symfony2.8 application.
 
 1. To run application enter this command:
 
-app/console app:salary-dates <filename>
+app/console app:salary-dates [filename]
 
 Parameter:
-<filename> - output csv filename 
+[filename] - output csv filename 
 
 Output file is generated to web/output/ directory.
 
